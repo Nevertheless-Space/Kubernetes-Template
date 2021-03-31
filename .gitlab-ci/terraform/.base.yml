@@ -1,0 +1,13 @@
+# ----------------- REQUIREMENTS -----------------
+# # Environment Variables:
+# TERRAFORM_VERSION
+# TERRAFORM_ARGS # --var KEY1=VALUE1 --var KEY2=VALUE2
+# GITLAB_USERNAME
+# GITLAB_PERSONAL_ACCESS_TOKEN
+
+# stages:
+#   - init
+#   - terraform
+# ----------------- REQUIREMENTS -----------------
+
+include: '.gitlab-ci/terraform/main.yml'

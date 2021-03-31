@@ -1,0 +1,10 @@
+stages:
+  - init
+  - terraform
+
+cache: 
+  paths: 
+    - .terraform/*
+
+include: 
+  - local: '.gitlab-ci/terraform/.base.yml'
