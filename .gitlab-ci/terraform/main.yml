@@ -1,0 +1,35 @@
+include: '.gitlab-ci/terraform/init.yml'
+
+tf-plan:
+  stage: init
+  script:
+    - terraform plan -out=$PLAN ${TERRAFORM_ARGS}
+    - terraform show --json $PLAN | convert_report > $PLAN_JSON
+  artifacts:
+    name: plan
+    paths:
+      - ${TF_ROOT}/plan.tfplan
+    reports:
+      terraform: ${TF_ROOT}/tfplan.json
+
+tf-apply-plan:
+  stage: terraform
+  script:
+    - terraform apply -input=false $PLAN
+  dependencies:
+    - tf-plan
+  when: manual
+
+tf-apply:
+  stage: terraform
+  script:
+    - terraform apply --auto-approve ${TERRAFORM_ARGS}
+  dependencies:
+    - tf-plan
+  when: manual
+
+tf-destroy:
+  stage: terraform
+  script:
+    - terraform destroy --auto-approve -lock=false ${TERRAFORM_ARGS}
+  when: manual
