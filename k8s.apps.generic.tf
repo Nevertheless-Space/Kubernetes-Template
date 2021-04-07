@@ -13,9 +13,32 @@ locals {
     # service_type = "ClusterIP"
     # labels = {}
     # resources = {
-    #   limits = {}
-    #   requests = {}
+    #   limits = {
+    #     cpu    = "0.5"
+    #     memory = "512Mi"
+    #   }
+    #   requests = {
+    #     cpu    = "250m"
+    #     memory = "50Mi"
+    #   }
     # }
+    config_map = {
+      mount_path = "/usr/share/nginx/html"
+      data = {
+        "index.html" = "${file("./assets/nginx-01/index.html")}"
+      }
+      # binary_data = {}
+    }
+    ingress = {
+      ingress_class = "nginx-test"
+      # hostname = ""
+      # path = "/"
+      # annotations = {}
+      # tls = {
+      #   hosts = []
+      #   secret_name = "test-cert"
+      # }
+    }
   }]
 }
 resource "kubernetes_namespace" "apps" {

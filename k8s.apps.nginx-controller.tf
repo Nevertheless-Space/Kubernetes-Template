@@ -9,7 +9,7 @@ locals{
     {
       name = "test"
       ingress_class = "nginx-test"
-      enable_http = false
+      enable_http = true
       enable_https = true
       log_format = "[$time_local] $remote_addr - $remote_user \"$request\" $status $body_bytes_sent \"$http_referer\" \"$http_user_agent\" \"$http_x_forwarded_for\" \"$host\" \"$http_x_forwarded_host\" \"$http_x_forwarded_proto\""
       other_configurations = [

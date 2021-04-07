@@ -45,20 +45,22 @@ resource "kubernetes_deployment" "deployment" {
             }
           }
 
-          # liveness_probe {
-          #   http_get {
-          #     path = "/nginx_status"
-          #     port = 80
-
-          #     http_header {
-          #       name  = "X-Custom-Header"
-          #       value = "Awesome"
-          #     }
-          #   }
-
-          #   initial_delay_seconds = 3
-          #   period_seconds        = 3
-          # }
+          dynamic "volume_mount" {
+            for_each = lookup(element(var.apps, count.index), "config_map", null) == null ? [] : [1]
+            content {
+              name = element(var.apps.*.name, count.index)
+              mount_path = lookup(element(local.config_maps.*.config_map, count.index), "mount_path", "/")
+            }
+          }
+        }
+        dynamic "volume" {
+          for_each = lookup(element(var.apps, count.index), "config_map", null) == null ? [] : [1]
+          content {
+            name = element(var.apps.*.name, count.index)
+            config_map {
+              name = element(var.apps.*.name, count.index)
+            } 
+          }
         }
       }
     }
