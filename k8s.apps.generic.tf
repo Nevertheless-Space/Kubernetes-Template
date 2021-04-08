@@ -5,39 +5,33 @@ locals {
   k8s_apps_generic_namespace = "apps"
 
   k8s_apps_generic_specs = [{
-    # replicas = 1
-    name = "nginx"
+    name = "nginx-01"
     image = "nginx"
     container_port = 80
     service_port = 80
-    # service_type = "ClusterIP"
-    # labels = {}
-    # resources = {
-    #   limits = {
-    #     cpu    = "0.5"
-    #     memory = "512Mi"
-    #   }
-    #   requests = {
-    #     cpu    = "250m"
-    #     memory = "50Mi"
-    #   }
-    # }
     config_map = {
       mount_path = "/usr/share/nginx/html"
       data = {
         "index.html" = "${file("./assets/nginx-01/index.html")}"
       }
-      # binary_data = {}
+    }
+    # ingress = {
+    #   ingress_class = "nginx-test"
+    # }
+  },
+  {
+    name = "nginx-02"
+    image = "nginx"
+    container_port = 80
+    service_port = 80
+    config_map = {
+      mount_path = "/usr/share/nginx/html"
+      data = {
+        "index.html" = "${file("./assets/nginx-02/index.html")}"
+      }
     }
     ingress = {
       ingress_class = "nginx-test"
-      # hostname = ""
-      # path = "/"
-      # annotations = {}
-      # tls = {
-      #   hosts = []
-      #   secret_name = "test-cert"
-      # }
     }
   }]
 }
@@ -63,7 +57,7 @@ module "generic-apps" {
   depends_on = [kubernetes_namespace.apps]
   count = local.k8s_apps_generic_enabled == true ? 1 : 0
 
-  source = "./generic-apps"
+  source = "git::https://github.com/nevertheless-space/terraform-modules//kubernetes/apps/generic?ref=kubernetes/apps/generic-debug"
   
   namespace = local.k8s_apps_generic_namespace
   apps = local.k8s_apps_generic_specs
