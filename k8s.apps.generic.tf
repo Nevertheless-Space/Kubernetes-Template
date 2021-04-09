@@ -12,7 +12,7 @@ locals {
     config_map = {
       mount_path = "/usr/share/nginx/html"
       data = {
-        "index.html" = "${file("./assets/nginx-01/index.html")}"
+        "index.html" = file("./assets/nginx-01/index.html")
       }
     }
     # ingress = {
@@ -27,13 +27,19 @@ locals {
     config_map = {
       mount_path = "/usr/share/nginx/html"
       data = {
-        "index.html" = "${file("./assets/nginx-02/index.html")}"
+        "index.html" = file("./assets/nginx-02/index.html")
       }
     }
     ingress = {
       ingress_class = "nginx-test"
     }
-  }]
+  },
+  {
+    name = "debug"
+    image = "registry.gitlab.com/nevertheless.space/docker-registry/linux-shell"
+    container_port = null
+  }
+  ]
 }
 resource "kubernetes_namespace" "apps" {
 
