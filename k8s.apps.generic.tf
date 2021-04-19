@@ -63,7 +63,7 @@ module "generic-apps" {
   depends_on = [kubernetes_namespace.apps]
   count = local.k8s_apps_generic_enabled == true ? 1 : 0
 
-  source = "git::https://github.com/nevertheless-space/terraform-modules//kubernetes/apps/generic?ref=kubernetes/apps/generic-debug"
+  source = "git::https://github.com/nevertheless-space/terraform-modules//kubernetes/apps/generic?ref=kubernetes/apps/generic-0.1.0"
   
   namespace = local.k8s_apps_generic_namespace
   apps = local.k8s_apps_generic_specs
