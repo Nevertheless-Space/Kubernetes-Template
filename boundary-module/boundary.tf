@@ -30,6 +30,9 @@ locals {
           port = "9202"
         }
       ]
+      ingress = {
+        ingress_class = "nginx-test"
+      }
     },  
   ]
 }

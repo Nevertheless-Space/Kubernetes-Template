@@ -1,5 +1,5 @@
 locals{
-  k8s_apps_nginx_controller_enabled = false
+  k8s_apps_nginx_controller_enabled = true
   k8s_apps_nginx_controller_depends_on = module.aks.kube_config
 
   k8s_apps_nginx_controller_namespace = "nginx-controllers"
