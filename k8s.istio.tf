@@ -1,5 +1,5 @@
 locals {
-  k8s_istio_enabled = true
+  k8s_istio_enabled = false
   k8s_istio_depends_on = module.aks.kube_config
 
   k8s_istio_specs = {
