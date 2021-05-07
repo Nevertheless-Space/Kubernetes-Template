@@ -1,7 +1,8 @@
 locals {
+  boundary_version = "0.1.8"
   k8s_apps_generic_specs = [{
       name = lookup(var.specs, "name", "boundary")
-      image = "hashicorp/boundary"
+      image = "hashicorp/boundary:${local.boundary_version}"
       env_variables = [
         {
           name = "BOUNDARY_POSTGRES_URL"
@@ -33,12 +34,18 @@ locals {
       ingress = {
         ingress_class = "nginx-test"
       }
+      # config_map = {
+      #   mount_path = "/boundary"
+      #   data = {
+      #     "config.hcl" = file("${path.module}/boundary.config.hcl")
+      #   }
+      # }
     },  
   ]
 }
 module "generic-apps" {
 
-  depends_on = [kubernetes_job.postgresql_init]
+  depends_on = [kubernetes_job.boundary_init]
 
   source = "git::https://github.com/nevertheless-space/terraform-modules//kubernetes/apps/generic?ref=kubernetes/apps/generic-debug"
   
