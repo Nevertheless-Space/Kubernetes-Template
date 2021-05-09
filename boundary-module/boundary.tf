@@ -1,45 +1,23 @@
 locals {
-  boundary_version = "0.1.8"
-  k8s_apps_generic_specs = [{
-      name = lookup(var.specs, "name", "boundary")
-      image = "hashicorp/boundary:${local.boundary_version}"
-      env_variables = [
-        {
+  apps_generic_specs = [{
+      name = lookup(var.specs, "name", local.defaults.boundary_name)
+      image = "hashicorp/boundary:${lookup(var.specs, "version", local.defaults.boundary_version)}"
+      env_variables = [{
           name = "BOUNDARY_POSTGRES_URL"
           value = local.postgresql_connection_string
         }
       ]
-      container_ports = [
-        {
-          port = "9200"
-        },
-        {
-          port = "9201"
-        },
-        {
-          port = "9202"
-        }
-      ]
-      service_ports = [
-        {
-          port = "9200"
-        },
-        {
-          port = "9201"
-        },
-        {
-          port = "9202"
-        }
-      ]
+      container_ports = [{port = "9200"},{port = "9201"},{port = "9202"}]
+      service_ports = [{port = "9200"},{port = "9201"},{port = "9202"}]
       ingress = {
-        ingress_class = "nginx-test"
+        ingress_class = lookup(var.specs, "ingress_class", local.defaults.boundary_ingress_class)
       }
-      # config_map = {
-      #   mount_path = "/boundary"
-      #   data = {
-      #     "config.hcl" = file("${path.module}/boundary.config.hcl")
-      #   }
-      # }
+      config_map = lookup(var.specs, "init_default_mode", local.defaults.boundary_init_default_mode) ? null : {
+        mount_path = "/boundary"
+        data = {
+          "config.hcl" = var.specs.init_config_file
+        }
+      }
     },  
   ]
 }
@@ -47,8 +25,8 @@ module "generic-apps" {
 
   depends_on = [kubernetes_job.boundary_init]
 
-  source = "git::https://github.com/nevertheless-space/terraform-modules//kubernetes/apps/generic?ref=kubernetes/apps/generic-debug"
+  source = "git::https://github.com/nevertheless-space/terraform-modules//kubernetes/apps/generic?ref=kubernetes/apps/generic-0.2.0"
   
   namespace = var.namespace
-  apps = local.k8s_apps_generic_specs
+  apps = local.apps_generic_specs
 }
