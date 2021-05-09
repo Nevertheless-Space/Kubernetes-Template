@@ -1,5 +1,5 @@
 locals {
-  k8s_apps_generic_enabled = false
+  k8s_apps_generic_enabled = true
   k8s_apps_generic_depends_on = module.aks.kube_config
 
   k8s_apps_generic_namespace = "apps"

@@ -25,6 +25,7 @@ controller {
 worker {
   name = "demo-worker"
   description = "A default worker created for demonstration"
+  public_addr = "0.0.0.0"
 }
 
 listener "tcp" {

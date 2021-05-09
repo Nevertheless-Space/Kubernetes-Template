@@ -2,7 +2,7 @@ locals {
   k8s_boundary_enabled = true
   k8s_boundary_depends_on = module.aks.kube_config
 
-  k8s_boundary_namespace = "boundary"
+  k8s_boundary_namespace = "boundary-test"
   k8s_boundary_specs = {
     name = "boundary-test"
     version = "0.1.8"
@@ -11,8 +11,8 @@ locals {
     postgresql_password = "postgres_password"
     postgresql_storage_class = "default"
     
-    # init_default_mode = false
-    # init_config_file = file("assets/boundary/config.hcl")
+    init_default_mode = false
+    init_config_file = file("assets/boundary/config.hcl")
     # init_kms_recovery = file("assets/boundary/kms_recovery.hcl")
     
     boundary_service_type = "LoadBalancer"

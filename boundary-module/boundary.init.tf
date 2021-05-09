@@ -1,7 +1,7 @@
 locals {
   boundary_init_command = lookup(var.specs, "init_default_mode", local.defaults.boundary_init_default_mode) ? local.boundary_init_command_default : local.boundary_init_command_custom
   boundary_init_command_default = "boundary database init -config /boundary/config.hcl"
-  boundary_init_command_custom = "boundary database init -skip-initial-login-role-creation -config /boundary/boundary.hcl"
+  boundary_init_command_custom = "boundary database init -skip-initial-login-role-creation -config /boundary/config.hcl"
 }
 module "init-job" {
 
@@ -17,10 +17,10 @@ module "init-job" {
       name = "BOUNDARY_POSTGRES_URL"
       value = local.postgresql_connection_string
     }]
-    config_map = lookup(var.specs, "init_default_mode", local.defaults.boundary_init_default_mode) ? null : {
+    config_map = lookup(var.specs, "init_config_file", null) == null ? null : {
       mount_path = "/boundary"
       data = {
-        "boundary.hcl" = var.specs.init_config_file
+        "config.hcl" = var.specs.init_config_file
       }
     }
     wait_for_completion = true
