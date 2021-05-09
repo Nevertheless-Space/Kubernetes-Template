@@ -9,6 +9,7 @@ locals {
       ]
       container_ports = [{port = "9200"},{port = "9201"},{port = "9202"}]
       service_ports = [{port = "9200"},{port = "9201"},{port = "9202"}]
+      service_type = lookup(var.specs, "service_type", local.defaults.boundary_service_type)
       ingress = {
         ingress_class = lookup(var.specs, "ingress_class", local.defaults.boundary_ingress_class)
       }
@@ -23,7 +24,7 @@ locals {
 }
 module "generic-apps" {
 
-  depends_on = [kubernetes_job.boundary_init]
+  depends_on = [module.init-job]
 
   source = "git::https://github.com/nevertheless-space/terraform-modules//kubernetes/apps/generic?ref=kubernetes/apps/generic-0.2.0"
   

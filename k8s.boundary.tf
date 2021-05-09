@@ -11,10 +11,11 @@ locals {
     postgresql_password = "postgres_password"
     postgresql_storage_class = "default"
     
-    init_default_mode = false
-    init_config_file = file("assets/boundary/config.hcl")
+    # init_default_mode = false
+    # init_config_file = file("assets/boundary/config.hcl")
     # init_kms_recovery = file("assets/boundary/kms_recovery.hcl")
     
+    boundary_service_type = "LoadBalancer"
     ingress_class = "nginx-test"
   }
 }
