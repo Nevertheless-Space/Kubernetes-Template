@@ -12,6 +12,8 @@ tf-plan:
     reports:
       terraform: ${TF_ROOT}/tfplan.json
   when: manual
+  only: 
+    - tags
 
 tf-apply-plan:
   stage: terraform
@@ -20,6 +22,8 @@ tf-apply-plan:
   dependencies:
     - tf-plan
   when: manual
+  only: 
+    - tags
 
 tf-apply:
   stage: terraform
@@ -28,9 +32,13 @@ tf-apply:
   dependencies:
     - tf-plan
   when: manual
+  only: 
+    - tags
 
 tf-destroy:
   stage: terraform
   script:
     - terraform destroy --auto-approve -lock=false ${TERRAFORM_ARGS}
   when: manual
+  only: 
+    - tags
