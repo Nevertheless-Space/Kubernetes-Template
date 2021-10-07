@@ -1,12 +1,12 @@
 provider "azurerm" {
-  subscription_id = var.subscription_id
-  client_id       = var.client_id
-  client_secret   = var.client_secret
-  tenant_id       = var.tenant_id
+  subscription_id = var.account_azure_subscription_id
+  client_id       = var.account_azure_client_id
+  client_secret   = var.account_azure_client_secret
+  tenant_id       = var.account_azure_tenant_id
 
   features {}
 }
-variable "subscription_id" {}
-variable "client_id" {}
-variable "client_secret" {}
-variable "tenant_id" {}
+variable "account_azure_subscription_id" {}
+variable "account_azure_client_id" {}
+variable "account_azure_client_secret" {}
+variable "account_azure_tenant_id" {}

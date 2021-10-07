@@ -11,6 +11,7 @@ tf-plan:
       - ${TF_ROOT}/plan.tfplan
     reports:
       terraform: ${TF_ROOT}/tfplan.json
+  when: manual
 
 tf-apply-plan:
   stage: terraform
