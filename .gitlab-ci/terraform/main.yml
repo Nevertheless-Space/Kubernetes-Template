@@ -42,3 +42,11 @@ tf-destroy:
   when: manual
   only: 
     - tags
+
+tf-commands:
+  stage: terraform
+  script:
+    - ${TERRAFORM_CMDS}
+  when: manual
+  only: 
+    - tags
