@@ -47,6 +47,15 @@ provider "helm" {
     cluster_ca_certificate = base64decode(module.aks.kube_config.0.cluster_ca_certificate)
   }
 }
+provider "kubectl" {
+  alias = "default"
+
+  host                   = module.aks.kube_config.0.host
+  client_certificate     = base64decode(module.aks.kube_config.0.client_certificate)
+  client_key             = base64decode(module.aks.kube_config.0.client_key)
+  cluster_ca_certificate = base64decode(module.aks.kube_config.0.cluster_ca_certificate)
+  load_config_file       = false
+}
 output "kube_config_raw" {
   value = nonsensitive(module.aks.kube_config_raw)
 }
