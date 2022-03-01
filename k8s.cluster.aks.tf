@@ -15,10 +15,11 @@ module "aks" {
   tenant = var.tenant
   env = var.env
   location = var.k8s_cluster_aks_location
-  tags = {
-    Tenant = var.tenant
-    Environment = var.env
-  }
+  tags = null
+  # tags = {
+  #   Tenant = var.tenant
+  #   Environment = var.env
+  # }
   service_principal_client_id = local.k8s_cluster_aks_service_principal_client_id
   service_principal_client_secret = local.k8s_cluster_aks_service_principal_client_secret
   nodes_sku = var.k8s_cluster_aks_nodes_sku
