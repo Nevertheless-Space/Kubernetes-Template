@@ -33,11 +33,11 @@ data "kubectl_file_documents" "flux_apply" {
   content = data.flux_install.main.0.content
 }
 locals {
-  k8s_flux_apply = [ for v in data.kubectl_file_documents.flux_apply.0.documents : {
+  k8s_flux_apply = var.k8s_flux_enabled ? [ for v in data.kubectl_file_documents.flux_apply.0.documents : {
       data: yamldecode(v)
       content: v
     }
-  ]
+  ] : []
 }
 resource "kubectl_manifest" "flux_apply" {
   provider = kubectl.default
@@ -59,11 +59,11 @@ data "kubectl_file_documents" "flux_sync" {
   content = data.flux_sync.main.0.content
 }
 locals {
-  k8s_flux_sync = [ for v in data.kubectl_file_documents.flux_sync.0.documents : {
+  k8s_flux_sync = var.k8s_flux_enabled ? [ for v in data.kubectl_file_documents.flux_sync.0.documents : {
       data: yamldecode(v)
       content: v
     }
-  ]
+  ] : []
 }
 resource "kubectl_manifest" "flux_sync" {
   provider = kubectl.default
